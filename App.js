@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, ImageBackground, Button, Alert } from 'react-native';
 import firebase from 'firebase';
 
-
 export default class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {consumido:0, status:'Ruim', pct:0};
 
-    this.addCopo = this.addCopo.bind(this);
-    this.atualizar = this.atualizar.bind(this);
+    this.state = {consumido:0, status:'Ruim', pct:0, nome:'Carregando...'};
 
-    let config = {
+    // Initialize Firebase
+  var config = {
     apiKey: "AIzaSyCE6_0rP3gv4X1GUU57UcRTn5Qzy12gQmw",
     authDomain: "teste-8990b.firebaseapp.com",
     databaseURL: "https://teste-8990b.firebaseio.com",
@@ -21,6 +19,14 @@ export default class App extends Component {
     messagingSenderId: "170311062452"
   };
   firebase.initializeApp(config);
+  firebase.database().ref("nome").on('value', (snapshot)=>{
+    let state = this.state;
+    state.nome = snapshot.val();
+    this.setState(state);
+  });
+
+    this.addCopo = this.addCopo.bind(this);
+    this.atualizar = this.atualizar.bind(this);
   }
 
   atualizar(){
@@ -61,7 +67,7 @@ export default class App extends Component {
       <View style={styles.body}>
         <ImageBackground source={require('./images/waterbg.png')} style={styles.bgimage}>
         <View>
-
+          <Text style={styles.nomeUser}>{this.state.nome}</Text>
           <View style={styles.infoArea}>
             <View style={styles.area}>
               <Text style={styles.areaTitulo}>Meta</Text>
@@ -131,5 +137,9 @@ const styles = StyleSheet.create({
     btnArea:{
       marginTop: 30,
       alignItems:'center'
+    },
+    nomeUser:{
+      fontSize:20,
+      color:'#2b4274'
     }
 });
