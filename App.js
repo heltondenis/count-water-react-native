@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, View, ImageBackground, Button, Alert } from 'react-native';
+import firebase from 'firebase';
 
 
 export default class App extends Component {
@@ -10,6 +11,16 @@ export default class App extends Component {
 
     this.addCopo = this.addCopo.bind(this);
     this.atualizar = this.atualizar.bind(this);
+
+    let config = {
+    apiKey: "AIzaSyCE6_0rP3gv4X1GUU57UcRTn5Qzy12gQmw",
+    authDomain: "teste-8990b.firebaseapp.com",
+    databaseURL: "https://teste-8990b.firebaseio.com",
+    projectId: "teste-8990b",
+    storageBucket: "teste-8990b.appspot.com",
+    messagingSenderId: "170311062452"
+  };
+  firebase.initializeApp(config);
   }
 
   atualizar(){
